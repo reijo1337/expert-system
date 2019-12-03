@@ -1,0 +1,14 @@
+[
+    {
+        "fact": "A",
+        "goal": "B"
+    },
+    {
+        "fact": "B",
+        "goal": "C"
+    },
+    {
+        "fact": "AB",
+        "goal": "D"
+    }
+]
