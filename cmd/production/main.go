@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 )
 
 var (
@@ -12,8 +11,13 @@ var (
 )
 
 func main() {
-	flag.Parse()
-	fmt.Println(*backward)
-	fmt.Println(os.Args)
-	flag.PrintDefaults()
+	rules, err := loadRules(*fileName)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("rules:")
+	for k, v := range rules {
+		fmt.Printf("%s: %v\n", k, v)
+	}
 }
