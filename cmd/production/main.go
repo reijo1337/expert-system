@@ -40,9 +40,11 @@ func main() {
 	text, _, _ := reader.ReadLine()
 	fmt.Println()
 	wq := proccessForward(text, rules)
-	fmt.Println()
-	fmt.Println("Итоговая рабочая память:")
-	fmt.Println(wq[len(wq)-1])
+	if len(wq) != 0 {
+		fmt.Println()
+		fmt.Println("Итоговая рабочая память:")
+		fmt.Println(wq[len(wq)-1])
+	}
 
 	fmt.Println()
 	fmt.Println("Введите факт для проверки:")
@@ -86,32 +88,41 @@ func proccessForward(baseRulesJSON []byte, rules map[string][]string) []string {
 }
 
 func proccessBack(goal string, backRules map[string][]string) {
+	if _, ok := backRules[goal]; !ok {
+		fmt.Println("В БЗ нет правила для вывода факта", goal)
+		return
+	}
 	workRules := make(map[string][]string, len(backRules))
 	for k, v := range backRules {
 		workRules[k] = append([]string{}, v...)
 	}
-
+	finalFacts := []string{}
 	stack := []string{goal}
-	for len(stack) != 0 || len(workRules) != 0 {
+
+	for len(stack) != 0 {
 		top := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
-		rightFacts, ok := workRules[top]
-		if !ok {
-			fmt.Println("В БЗ нет правила для вывода факта", top)
-			return
-		}
+		rightFacts := workRules[top]
 		delete(workRules, top)
+
 		for _, rightFact := range rightFacts {
 			var tmp []string
 			json.Unmarshal([]byte(rightFact), &tmp)
 			for _, newGoal := range tmp {
 				if _, ok := workRules[newGoal]; !ok {
-					fmt.Println("В БЗ нет правила для вывода факта", newGoal, "который является частью факта", tmp)
-					return
+					finalFacts = append(finalFacts, tmp...)
+					continue
 				}
 				stack = append(stack, newGoal)
 			}
-			fmt.Println(top, "<-", tmp)
+			fmt.Println(top, "<-", rightFact)
+		}
+	}
+	if len(finalFacts) != 0 {
+		fmt.Println()
+		fmt.Println("Итоговый вывод:")
+		for _, fact := range finalFacts {
+			fmt.Println(fact)
 		}
 	}
 }
