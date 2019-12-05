@@ -92,6 +92,7 @@ func proccessBack(goal string, backRules map[string][]string) {
 		fmt.Println("В БЗ нет правила для вывода факта", goal)
 		return
 	}
+
 	workRules := make(map[string][]string, len(backRules))
 	for k, v := range backRules {
 		workRules[k] = append([]string{}, v...)
@@ -109,8 +110,8 @@ func proccessBack(goal string, backRules map[string][]string) {
 			var tmp []string
 			json.Unmarshal([]byte(rightFact), &tmp)
 			for _, newGoal := range tmp {
-				if _, ok := workRules[newGoal]; !ok {
-					finalFacts = append(finalFacts, tmp...)
+				if _, ok := workRules[newGoal]; !ok && !strings.Contains(strings.Join(finalFacts, " "), newGoal) {
+					finalFacts = append(finalFacts, newGoal)
 					continue
 				}
 				stack = append(stack, newGoal)
@@ -142,16 +143,6 @@ func addToWorkQueue(workQueue []string, rule string) []string {
 		workQueue = append(workQueue, string(tmpNew))
 	}
 	return workQueue
-}
-
-// находится ли факт в рабочей памяти
-func contains(sub, check string) bool {
-	for _, r := range sub {
-		if !strings.ContainsRune(check, r) {
-			return false
-		}
-	}
-	return true
 }
 
 // загрузка правил из файла
