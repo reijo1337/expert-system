@@ -28,16 +28,20 @@ def unify_relation(relations, rules, name, body):
 
         for relation in relations[name]:
             match = True
+            tmp = []
             for pos, var, rel in zip(var_positions, body, relation):
                 if pos:
-                    if {var: rel} not in var_to_atom:
-                        var_to_atom.append({var: rel})
+                    if {var: rel} not in tmp:
+                        tmp.append({var: rel})
                     continue
                 elif var == rel:
                     continue
                 else:
                     match = False
             if match:
+                for val in tmp:
+                    if val not in var_to_atom:
+                        var_to_atom.append(val)
                 matches.append(relation)
 
         return name, matches
