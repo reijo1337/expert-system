@@ -1,0 +1,32 @@
+bites(fido, postman).
+is_person(postman).
+is_dog(fido).
+
+bad_dog(Dog) :- bites(Dog, Person), is_person(Person), is_dog(Dog).
+
+offspring(abraham, ishmael).
+offspring(abraham, isaac).
+offspring(isaac, esau).
+offspring(isaac, jacob).
+
+descendant(X, Z) :- offspring(X, Y), descendant(Y, Z).
+descendant(X, Y) :- offspring(X, Y).
+
+father(jack, susan).
+father(jack, ray).
+father(david, liza).
+father(david, john).
+father(john, peter).
+father(john, mary).
+mother(karen, susan).
+mother(karen, ray).
+mother(amy, liza).
+mother(amy, john).
+mother(susan, peter).
+mother(susan, mary).
+
+parent(X, Y) :- father(X, Y).
+parent(X, Y) :- mother(X, Y).
+grandfather(X, Y) :- father(X, Z), parent(Z, Y).
+grandmother(X, Y) :- mother(X, Z), parent(Z, Y).
+grandparent(X, Y) :- parent(X, Z), parent(Z, Y).
