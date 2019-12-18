@@ -11,7 +11,6 @@ import (
 )
 
 var (
-	backward = flag.Bool("backward", false, "Прямой ход")
 	fileName = flag.String("f", "examples/production.json", "Файл с правилами")
 )
 
@@ -39,8 +38,13 @@ func main() {
 	fmt.Println("Введите факты:")
 	text, _, _ := reader.ReadLine()
 	fmt.Println()
-	wq := proccessForward(text, rules)
+	wq := proccessForward(text, rules, false)
 	if len(wq) != 0 {
+		fmt.Println()
+		fmt.Println("Введите цель для проверки достижимости:")
+		text, _, _ = reader.ReadLine()
+		fmt.Println()
+		fmt.Println("Достижима ли цель?", strings.Contains(wq[len(wq)-1], string(text)))
 		fmt.Println()
 		fmt.Println("Итоговая рабочая память:")
 		fmt.Println(wq[len(wq)-1])
@@ -54,7 +58,7 @@ func main() {
 }
 
 // Прямой ход для набора фактов
-func proccessForward(baseRulesJSON []byte, rules map[string][]string) []string {
+func proccessForward(baseRulesJSON []byte, rules map[string][]string, print bool) []string {
 	workRules := make(map[string][]string, len(rules))
 	for k, v := range rules {
 		workRules[k] = append([]string{}, v...)
@@ -70,14 +74,18 @@ func proccessForward(baseRulesJSON []byte, rules map[string][]string) []string {
 
 	fmt.Println()
 	l := len(workQueue)
-	fmt.Println("Выводы:")
+	if print {
+		fmt.Println("Выводы:")
+	}
 	for i := 0; i < l; i++ {
 		out, ok := workRules[workQueue[i]]
 		if !ok {
 			continue
 		}
 		for _, fact := range out {
-			fmt.Println(workQueue[i], "->", fact)
+			if print {
+				fmt.Println(workQueue[i], "->", fact)
+			}
 			workQueue = addToWorkQueue(workQueue, fact)
 		}
 
