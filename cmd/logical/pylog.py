@@ -177,8 +177,11 @@ def shell():
                 res = result["rule"].asList()
                 res = (res[0], res[2])
 
-                rules[res[0][0]] = {"vars": res[0][1].asList(),
-                                    "body": res[1]}
+                if res[0][0] not in rules:
+                    rules[res[0][0]] = {"vars": res[0][1].asList(),
+                                        "body": res[1]}
+                else:
+                    rules[res[0][0]]["body"].append(res[1][0])
 
                 print("Rule {} defined".format(res[0][0]))
 
