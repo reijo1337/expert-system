@@ -38,7 +38,7 @@ func main() {
 	fmt.Println("Введите факты:")
 	text, _, _ := reader.ReadLine()
 	fmt.Println()
-	wq := proccessForward(text, rules, false)
+	wq := proccessForward(text, rules, true)
 	if len(wq) != 0 {
 		fmt.Println()
 		fmt.Println("Введите цель для проверки достижимости:")
