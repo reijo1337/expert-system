@@ -1,17 +1,3 @@
-bites(fido, postman).
-is_person(postman).
-is_dog(fido).
-
-bad_dog(Dog) :- bites(Dog, Person), is_person(Person), is_dog(Dog).
-
-offspring(abraham, ishmael).
-offspring(abraham, isaac).
-offspring(isaac, esau).
-offspring(isaac, jacob).
-
-descendant(X, Z) :- offspring(X, Y), descendant(Y, Z).
-descendant(X, Y) :- offspring(X, Y).
-
 father(jack, susan).
 father(jack, ray).
 father(david, liza).

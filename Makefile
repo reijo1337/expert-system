@@ -3,3 +3,6 @@ build.production:
 
 run.production:build.production
 	.bin/production; rm .bin/production
+
+run.logic:
+	python3 cmd/logical/pylog.py
