@@ -115,7 +115,7 @@ class Rule:
 
     # Return a readable representation of our rule containing our rule head and tail info.
     def __str__(self):
-        return str(self.head) + ' :- ' + str(self.tail);
+        return str(self.head) if str(self.tail) == "TRUE" else str(self.head) + ' :- ' + str(self.tail);
 
     # Use the default string representation
     def __repr__(self):
@@ -246,7 +246,7 @@ class Database:
 
     # Return a readable representation of our database containing a list of our rules.
     def __str__(self):
-        return ".\n".join(str(rule) for rule in self.rules)
+        return ".\n".join(str(rule) for rule in self.rules) + ".\n"
 
     # Use the default string representation
     def __repr__(self):
