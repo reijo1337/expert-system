@@ -9,3 +9,9 @@ run.logic:
 
 run.fuzzy:
 	python3 cmd/fuzzy/main.py
+
+build.fcmeans:
+	g++ -o .bin/fcmeans -I cmd/fcmeans/eigen/ cmd/fcmeans/fcm.cpp cmd/fcmeans/fcm.h cmd/fcmeans/main.cpp
+
+run.fcmeans:build.fcmeans
+	.bin/fcmeans | python3 cmd/fcmeans/main.py; rm .bin/fcmeans
