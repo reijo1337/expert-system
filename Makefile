@@ -6,3 +6,6 @@ run.production:build.production
 
 run.logic:
 	python3 cmd/logical/pylog.py
+
+run.fuzzy:
+	python3 cmd/fuzzy/main.py
