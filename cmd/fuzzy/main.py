@@ -1,27 +1,7 @@
-from fuzz_common import *
+from fuzz_common import visualize_lex_var, zadeh_and, zadeh_or, mass_center
 from matplotlib import pyplot as plt
-from vars import *
-
-class Rule(object):
-    def __init__(self, lhs_names, lhs, rhs, rhs_name, op='AND'):
-        self.lhs_names = lhs_names
-        self.lhs = list(lhs)
-        self.rhs = rhs
-        self.rhs_name = rhs_name
-        self.op = op
-
-    def infer(self, lex_var_values):
-        values = []
-
-        for i in range(len(self.lhs)):
-            ev = self.lhs[i].fuzzify(lex_var_values[self.lhs[i].name])
-            values.append(ev[self.lhs_names[i]])
-
-        if self.op is 'AND':
-            return self.rhs_name, constant(self.rhs.left, self.rhs.right, min(values))
-
-        return self.rhs_name, constant(self.rhs.left, self.rhs.right, max(values))
-
+from vars import priority, preparedness, expediency, rules
+from matplotlib import pyplot as plt
 
 def aggregate(inferred_values, right_lexvar):
     result_fns = []
@@ -53,11 +33,13 @@ if __name__ == "__main__":
     visualize_lex_var(priority)
     visualize_lex_var(preparedness)
     visualize_lex_var(expediency)
+    plt.show(block = False)
 
     priorityValue = int(input('Показатель приоритета профиля для студента: '))
     preparednessValue = int(input('Уровень профильной подготовки студента: '))
 
-    expediencyValue = mamdani_inference({priority.name: priorityValue, preparedness.name: preparednessValue},
-                                [R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11], expediency)
+    expediencyValue = mamdani_inference(
+        {priority.name: priorityValue, preparedness.name: preparednessValue},
+        rules, expediency)
 
-    print(expediencyValue)
+    print("Показатель целесообразности обучения по профилю: {}".format(expediencyValue))

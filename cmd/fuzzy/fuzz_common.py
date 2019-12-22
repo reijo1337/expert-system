@@ -55,7 +55,6 @@ def mass_center(distr, left, right):
     def denominator(x):
         return x * distr(x)
 
-    options = {'limit': 100}
     return spi.quad(denominator, left, right, limit=100, limlst=100)[0] / spi.quad(distr, left, right,
                                                                                    limit=100, limlst=100)[0]
 
@@ -78,11 +77,31 @@ class Variable(object):
 
 def visualize_lex_var(lex_var):
     X = np.linspace(lex_var.left, lex_var.right)
-
+    plt.figure()
     for (name, membership) in lex_var.memberships.items():
         values = []
         for x in X:
             values.append(membership(x))
         plt.plot(X, values, label=name)
     plt.title(lex_var.name)
-    plt.show()
+
+
+class Rule(object):
+    def __init__(self, lhs_names, lhs, rhs, rhs_name, op='AND'):
+        self.lhs_names = lhs_names
+        self.lhs = list(lhs)
+        self.rhs = rhs
+        self.rhs_name = rhs_name
+        self.op = op
+
+    def infer(self, lex_var_values):
+        values = []
+        # fuzzification
+        for i in range(len(self.lhs)):
+            ev = self.lhs[i].fuzzify(lex_var_values[self.lhs[i].name])
+            values.append(ev[self.lhs_names[i]])
+        # aggregation
+        if self.op is 'AND':
+            return self.rhs_name, constant(self.rhs.left, self.rhs.right, min(values))
+
+        return self.rhs_name, constant(self.rhs.left, self.rhs.right, max(values))

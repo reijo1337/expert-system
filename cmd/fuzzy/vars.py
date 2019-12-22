@@ -1,24 +1,4 @@
-from fuzz_common import *
-
-class Rule(object):
-    def __init__(self, lhs_names, lhs, rhs, rhs_name, op='AND'):
-        self.lhs_names = lhs_names
-        self.lhs = list(lhs)
-        self.rhs = rhs
-        self.rhs_name = rhs_name
-        self.op = op
-
-    def infer(self, lex_var_values):
-        values = []
-        # fuzzification
-        for i in range(len(self.lhs)):
-            ev = self.lhs[i].fuzzify(lex_var_values[self.lhs[i].name])
-            values.append(ev[self.lhs_names[i]])
-        # aggregation
-        if self.op is 'AND':
-            return self.rhs_name, constant(self.rhs.left, self.rhs.right, min(values))
-
-        return self.rhs_name, constant(self.rhs.left, self.rhs.right, max(values))
+from fuzz_common import trapezioid, Variable, constant, Rule
 
 
 # X1
@@ -45,15 +25,17 @@ expediency = Variable('Показатель целесообразности о�
     'полный': trapezioid(75, 90, 100, 100, 1)
 }, 0, 100)
 
-R0 = Rule(['высокий', 'отл'], [priority, preparedness], expediency, 'полный')
-R1 = Rule(['высокий', 'хор'], [priority, preparedness], expediency, 'высокий')
-R2 = Rule(['высокий', 'уд'], [priority, preparedness], expediency, 'средний')
-R3 = Rule(['высокий', 'неуд'], [priority, preparedness], expediency, 'низкий')
-R4 = Rule(['средний', 'отл'], [priority, preparedness], expediency, 'высокий')
-R5 = Rule(['средний', 'хор'], [priority, preparedness], expediency, 'средний')
-R6 = Rule(['средний', 'уд'], [priority, preparedness], expediency, 'низкий')
-R7 = Rule(['средний', 'неуд'], [priority, preparedness], expediency, 'ноль')
-R8 = Rule(['низкий', 'отл'], [priority, preparedness], expediency, 'средний')
-R9 = Rule(['низкий', 'хор'], [priority, preparedness], expediency, 'низкий')
-R10 = Rule(['низкий', 'уд'], [priority, preparedness], expediency, 'ноль')
-R11 = Rule(['низкий', 'неуд'], [priority, preparedness], expediency, 'ноль')
+rules = [
+Rule(['высокий', 'отл'], [priority, preparedness], expediency, 'полный'),
+Rule(['высокий', 'хор'], [priority, preparedness], expediency, 'высокий'),
+Rule(['высокий', 'уд'], [priority, preparedness], expediency, 'средний'),
+Rule(['высокий', 'неуд'], [priority, preparedness], expediency, 'низкий'),
+Rule(['средний', 'отл'], [priority, preparedness], expediency, 'высокий'),
+Rule(['средний', 'хор'], [priority, preparedness], expediency, 'средний'),
+Rule(['средний', 'уд'], [priority, preparedness], expediency, 'низкий'),
+Rule(['средний', 'неуд'], [priority, preparedness], expediency, 'ноль'),
+Rule(['низкий', 'отл'], [priority, preparedness], expediency, 'средний'),
+Rule(['низкий', 'хор'], [priority, preparedness], expediency, 'низкий'),
+Rule(['низкий', 'уд'], [priority, preparedness], expediency, 'ноль'),
+Rule(['низкий', 'неуд'], [priority, preparedness], expediency, 'ноль'),
+]
