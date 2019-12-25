@@ -16,7 +16,7 @@ clust2z = []
 
 while True:
     try:
-        val = input().split();
+        val = input().split()
         x = float(val[0])
         y = float(val[1])
         z = float(val[2])
@@ -39,7 +39,7 @@ while True:
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-ax.scatter3D(clust0x, clust0y, clust0z, color='r');
-ax.scatter3D(clust1x, clust1y, clust1z, color='g');
-ax.scatter3D(clust2x, clust2y, clust2z, color='b');
+ax.scatter3D(clust0x, clust0y, clust0z, color='r')
+ax.scatter3D(clust1x, clust1y, clust1z, color='g')
+ax.scatter3D(clust2x, clust2y, clust2z, color='b')
 plt.show()

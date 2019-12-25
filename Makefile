@@ -13,7 +13,7 @@ run.fuzzy:
 build.fcmeans:
 	g++ -o .bin/fcmeans -I cmd/fcmeans/eigen/ cmd/fcmeans/fcm.cpp cmd/fcmeans/fcm.h cmd/fcmeans/main.cpp
 
-run.fcmeans:build.fcmeans
+run.fcmeans:
 	.bin/fcmeans | python3 cmd/fcmeans/main.py; rm .bin/fcmeans
 
 build.fcmeans.mac:

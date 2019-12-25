@@ -1,0 +1,3 @@
+/Users/igorborzunov/desktop/IU7/expert-system/cmd/fcmeans/CMakeFiles/rebuild_cache.dir
+/Users/igorborzunov/desktop/IU7/expert-system/cmd/fcmeans/CMakeFiles/edit_cache.dir
+/Users/igorborzunov/desktop/IU7/expert-system/cmd/fcmeans/CMakeFiles/fcmeans.dir
