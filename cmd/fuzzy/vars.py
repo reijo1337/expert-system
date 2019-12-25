@@ -1,11 +1,14 @@
-from fuzz_common import trapezioid, Variable, constant, Rule
+from fuzz_common import trapezioid, Variable, constant, Rule, gaus
 
 
 # X1
 priority = Variable('Показатель приоритета профиля для студента', {
-    'низкий': trapezioid(0, 0, 30, 40, 1),
-    'средний': trapezioid(30, 40, 60, 70, 1),
-    'высокий': trapezioid(60, 70, 100, 100, 1)
+    # 'низкий': trapezioid(0, 0, 30, 40, 1),
+    'низкий': gaus(20, 10, 1),
+    'средний': gaus(50, 20, 1),
+    # 'средний': trapezioid(30, 40, 60, 70, 1),
+    # 'высокий': trapezioid(60, 70, 100, 100, 1)
+    'высокий': gaus(70, 15, 1),
 }, 0, 100)
 
 # X2

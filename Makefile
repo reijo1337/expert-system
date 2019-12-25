@@ -15,3 +15,6 @@ build.fcmeans:
 
 run.fcmeans:build.fcmeans
 	.bin/fcmeans | python3 cmd/fcmeans/main.py; rm .bin/fcmeans
+
+build.fcmeans.mac:
+	g++ -o .bin/fcmeans -I cmd/fcmeans/eigen/ -Wc++11-extensions cmd/fcmeans/fcm.cpp cmd/fcmeans/main.cpp

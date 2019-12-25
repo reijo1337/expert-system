@@ -1,7 +1,7 @@
 import scipy.integrate as spi
 import numpy as np
 from matplotlib import pyplot as plt
-
+import math
 
 class Variable(object):
     def __init__(self, name, memberships, left, right):
@@ -60,6 +60,10 @@ def triangle(left, right, value):
     middle = (left + right) / 2
     return trapezioid(left, middle, middle, right, value)
 
+def gaus(c, omega, value):
+    def inner(x):
+        return value * math.exp(-pow((x - c) / omega, 2))
+    return inner
 
 def constant(left, right, value):
     def inner(x):
